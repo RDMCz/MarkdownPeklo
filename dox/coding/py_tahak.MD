@@ -30,6 +30,18 @@ result = split_string_at_nth_occurrence(string, delimiter, n)
 # Result: ['1,2,3', '4,5,6', '7,8,9', '10']
 ```
 
+## Soubory
+
+```py
+PATH = pathlib.Path(__file__).parent
+
+with open(PATH / "filename.txt", "w", encoding="utf-8") as f_out:  # "w" jako write / "a" jako append
+    f_out.write("Příliš žluťoučký kůň úpěl ďábelské ódy 🤓.")
+
+with open(PATH / "filename.txt", "r", encoding="utf-8") as f_in:
+    contents = f_in.read()
+```
+
 ## pip a venv
 
 ### Smazání všech globálních balíků (PowerShell one-liner)

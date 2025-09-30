@@ -3,9 +3,9 @@
 * [C tahák](./dox/coding/c_tahak.MD)
 * [C++ tahák](./dox/coding/cpp_tahak.MD)
 * [Go tahák](./dox/coding/go_tahak.MD)
-* [Java tahák I: Strukturované paradigma](./dox/coding/java_8_tahak.MD)
-* [Java tahák II: Objektové paradigma](./dox/coding/java_17_tahak.MD)
+* [Java tahák](./dox/coding/java_tahak.MD)
 * [Lua tahák](./dox/coding/lua_tahak.MD)
+* [PowerShell scripting tahák](./dox/coding/powershell_scripting_tahak.MD)
 * [Python tahák](./dox/coding/py_tahak.MD)
 
 ## Software
