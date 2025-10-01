@@ -75,8 +75,11 @@
 * Vlastní pravidla píšeme pod řádek `/* Please write your custom CSS under this line*/`
 
 ```css
+/* Panel 'Najít na stránce...' ve vrchní části prohlížeče */
+.browserContainer > findbar { order: -1 !important; }
+
 /* Skrytí tlačítka 'Sdílet tuto stránku s vaším telefonem' */
-#QRCodeGeneratePageAction{display: none !important;}
+#QRCodeGeneratePageAction{ display: none !important; }
 
 /* Skrytí tlačítka 'Seznam všech panelů' */
 #alltabs-button { display: none !important; }

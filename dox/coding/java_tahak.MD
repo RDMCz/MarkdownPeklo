@@ -3,6 +3,13 @@
 > [!NOTE]  
 > Toto zdaleka není veškerý výčet funkcí a vlastností daného programovacího jazyka.<br>Jedná se pouze o&nbsp;mé zápisky vzniklé během řešení [AoC](https://github.com/RDMCz/AdventOfCode) a/nebo při (samo)studiu.
 
+* [Strukturované paradigma](#strukturované-paradigma) – datové typy, kolekce, ...
+* [Objektové paradigma](#objektové-paradigma)
+  * [Knihovní třída](#knihovní-třída)
+  * [Porovnání podle Stringu v češtině](#porovnání-podle-stringu-v-češtině)
+  * [Další metody řazení](#další-metody-řazení) – předdefinovaný komparátor, vytvoření třídy Comparator, anonymní třída, lambda výraz
+  * [Práce se soubory](#práce-se-soubory) – čtení a zápis textových a binárních souborů
+
 ## Strukturované paradigma
 
 ### Datové typy
@@ -144,7 +151,7 @@ int randomNumber = rand.nextInt((max - min) + 1) + min;
 
 ## Objektové paradigma
 
-## Knihovní třída
+### Knihovní třída
 
 * `public final` – třída je viditelná pro všechny, z třídy nelze dědit
 * Privátní konstruktor – nelze tvořit instance
@@ -157,7 +164,7 @@ public final class Library {
 }
 ```
 
-## Porovnání podle Stringu v češtině
+### Porovnání podle Stringu v češtině
 
 ```java
 public class Human implements Comparable<Human> {
@@ -177,9 +184,9 @@ Collections.sort(humans);
 // (Collections.sort využívá metody compareTo ve třídě Human)
 ```
 
-## Další metody řazení
+### Další metody řazení
 
-### Předdefinovaný komparátor
+#### Předdefinovaný komparátor
 
 ```java
 public static final Collator col = Collator.getInstance(new Locale("cs","cz"));
@@ -192,7 +199,7 @@ public void sortByNameConst() {
 }
 ```
 
-### Vytvoření třídy Comparator
+#### Vytvoření třídy Comparator
 
 ```java
 public class ComparatorHumanByName implements Comparator<Human> {
@@ -208,7 +215,7 @@ public void sortByName() {
 }
 ```
 
-### Anonymní vnitřní třída
+#### Anonymní vnitřní třída
 
 ```java
 public void sortByNameAnonymous() {
@@ -221,7 +228,7 @@ public void sortByNameAnonymous() {
 }
 ```
 
-### Lambda výraz
+#### Lambda výraz
 
 ```java
 public void sortByNameLambda() {
@@ -229,14 +236,14 @@ public void sortByNameLambda() {
 }
 ```
 
-## Práce se soubory
+### Práce se soubory
 
 * Preferujeme konstrukci _try-with-resources_
 * Proudy obvykle vyhazují výjimky, třeba odchytit
 
-### Čtení textových souborů
+#### Čtení textových souborů
 
-#### BufferedReader
+##### BufferedReader
 
 ```java
 File input = new File("D:\\text.txt");
@@ -250,7 +257,7 @@ try (BufferedReader br = new BufferedReader(new FileReader(input))) {
 }
 ```
 
-#### Scanner
+##### Scanner
 
 ```java
 try (Scanner sc = new Scanner(input)) {
@@ -261,9 +268,9 @@ try (Scanner sc = new Scanner(input)) {
 }
 ```
 
-### Zápis textových souborů
+#### Zápis textových souborů
 
-#### PrintWriter
+##### PrintWriter
 
 ```java
 File output = new File("D:\\text_out.txt");
@@ -275,7 +282,9 @@ try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(output))
 
 Druhým parametrem _FileWriteru_ může být `boolean append`.
 
-### Zápis binárních souborů
+#### Zápis binárních souborů
+
+##### DataOutputStream
 
 ```java
 try (DataOutputStream out = new DataOutputStream(new FileOutputStream(binaryFile))) {
@@ -287,7 +296,9 @@ try (DataOutputStream out = new DataOutputStream(new FileOutputStream(binaryFile
 
 Mezi proudy ještě můžeme přidat `BufferedOutputStream`.
 
-### Čtení binárních souborů
+#### Čtení binárních souborů
+
+##### DataInputStream
 
 ```java
 try (DataInputStream in = new DataInputStream(new FileInputStream(binaryFile))) {
