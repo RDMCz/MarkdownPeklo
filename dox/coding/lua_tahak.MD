@@ -3,6 +3,18 @@
 > [!NOTE]  
 > Toto zdaleka není veškerý výčet funkcí a vlastností daného programovacího jazyka.<br>Jedná se pouze o&nbsp;mé zápisky vzniklé během řešení [AoC](https://github.com/RDMCz/AdventOfCode) a/nebo při (samo)studiu.
 
+* [Kolekce](#kolekce)
+  * [Table jako 1D pole](#table-jako-1d-pole)
+  * [Table jako asociativní pole (dictionary)](#table-jako-asociativní-pole-dictionary)
+  * [Table jako množina (set)](#table-jako-množina-set)
+* [Řetězce](#řetězce)
+  * [Zjištění indexu podřetězce](#zjištění-indexu-podřetězce)
+  * [Hledání podřetězců podle vzoru](#hledání-podřetězců-podle-vzoru)
+  * [String split?](#string-split)
+  * [Vyzobání hodnot z řetězce à la `sscanf`](#vyzobání-hodnot-z-řetězce-à-la-sscanf)
+* [Převody](#převody)
+* [Skoky](#skoky)
+
 ## Kolekce
 
 Lua má jediný typ kolekce zvaný `table`, který může sloužit jako pole, slovník, struktura, ... a indexuje jej od jedničky.
@@ -212,7 +224,7 @@ Popíšeme-li daný řetězec vzorem a ozávorkujeme části, jež nás zajímaj
 
 ```lua
 local text = "brown     fox"
-local left, right = text:match("(%a+)%s+(%a+)") -- Zkrácení string.match(text, "(%a+)%s+(%a+)")
+local left, right = text:match("(%a+)%s+(%a+)") -- text:match("𝑥") je zkrácený zápis pro string.match(text, "𝑥")
 print(left .. "-" .. right) --> brown-fox
 ```
 

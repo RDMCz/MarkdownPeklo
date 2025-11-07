@@ -47,7 +47,6 @@ with open(PATH / "filename.txt", "r", encoding="utf-8") as f_in:  # "r" jako rea
 ### Smazání všech globálních balíků (PowerShell one-liner)
 
 ```ps1
-# https://stackoverflow.com/a/73721750
 pip freeze > unins ; pip uninstall -y -r unins ; del unins
 ```
 

@@ -34,9 +34,9 @@ Z <https://getsharex.com/downloads> stáhněte ShareX a program spusťte. V nast
     * _Show position and size info_
     * _Show magnifier near cursor_
   * _Advanced_
-    * _RegionCaptureDisableAnnotation_ (vypne horní toolbar během region capture)
+    * _RegionCaptureDisableAnnotation_ (vypne horní toolbar během region capture) <sup>1</sup>
 * _Hotkey settings_
   * _Capture region_ změňte na `Shift` + `Win` + `S`
   * Ostatní funkce lze smazat pomocí _Remove_
 
-Animace rámečku výběru lze vypnout pouze v horním toolbaru během region capture, tudíž je pro jejich vypnutí nutné dočasně nastavit  _RegionCaptureDisableAnnotation_ na _False_.
+<sup>1</sup> Animace rámečku výběru lze vypnout pouze v horním toolbaru během region capture, tudíž je pro jejich vypnutí nutné dočasně nastavit  _RegionCaptureDisableAnnotation_ na _False_.

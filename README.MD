@@ -6,7 +6,7 @@ Jazyk/odkaz|Obsahuje
 [__C++__ tahák](./dox/coding/cpp_tahak.MD)|pouze snippety
 [__Go__ tahák](./dox/coding/go_tahak.MD)|pouze snippety
 [__Java__ tahák](./dox/coding/java_tahak.MD)|pouze snippety
-[__Lua__ tahák](./dox/coding/lua_tahak.MD)|pouze snippety
+[__Lua__ tahák](./dox/coding/lua_tahak.MD)|práce s kolekcemi a s řetězci, snippety
 [__PowerShell__ scripting tahák](./dox/coding/powershell_scripting_tahak.MD)|popis stavebních prvků pro psaní skriptů (_zero to basics_)
 [__Python__ tahák](./dox/coding/py_tahak.MD)|pouze snippety
 
