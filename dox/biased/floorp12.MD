@@ -60,7 +60,7 @@
 
 ## about:config
 
-* `gfx.font_rendering.cleartype_params.rendering_mode` → `5` – vyhlazenější font
+* `gfx.font_rendering.cleartype_params.rendering_mode` → `5` – vyhlazenější font, Windows only
 
 * `browser.translations.enable` → `false` – vypne podprůměrný Firefox překlad, pro překlad lze použít [TWP - Translate Web Pages](https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/) ([nastavení](./floorp11.MD#nastavení-twp---translate-web-pages))
 
@@ -70,9 +70,12 @@
 
 ## userChrome.css
 
-* K souboru se dostaneme přes: `about:support` → _Složka s profilem_ → _Otevřít_ → `chrome` → `userChrome.css`
-
-* Vlastní pravidla píšeme pod řádek `/* Please write your custom CSS under this line*/`
+* Před verzí 12.7:
+  * ~~K souboru se dostaneme přes: `about:support` → _Složka s profilem_ → _Otevřít_ → `chrome` → `userChrome.css` a vlastní pravidla píšeme pod řádek `/* Please write your custom CSS under this line*/`~~
+* Po verzi 12.7:
+  * K souboru se dostaneme přes: `about:support` → _Složka s profilem_ → _Otevřít_ → `chrome` → `CSS` → `userChrome.css`
+* Linux:
+  * _Složka s profilem_ mi ukazuje neexistujícíc cestu, naštěstí lze soubor ve file manageru rychle vyhledat
 
 ```css
 /* Panel 'Najít na stránce...' ve vrchní části prohlížeče */

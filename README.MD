@@ -1,5 +1,7 @@
 ## Programování
 
+Zde jsou výpisky, které jsem postupně tvořil při práci v různých programovacích jazycích. Většina z nich obsahuje pouze snippety, které jsem si potřeboval poznamenat. Některé ale mohou sloužit jako dobré přivítání do daného jazyka, pokud již máte nějaké „obecné“ programovací znalosti. Takové výpisky jsem označil jako _zero to basics_ a jsou vhodné pro ty, kteří si nemohou dovolit pouštět se do plnohodnotné knihy, ale zároveň tuší, že video typu „learn _X_ in 10 minutes“ stačit nebude.
+
 Jazyk/odkaz|Obsahuje
 ---|---
 [__C__ tahák](./dox/coding/c_tahak.MD)|základní a strukturované datové typy, pole, ukazatele, dynamická alokace paměti

@@ -31,7 +31,7 @@
 
 ## about:config
 
-* `gfx.font_rendering.cleartype_params.rendering_mode` → `5` – vyhlazenější font
+* `gfx.font_rendering.cleartype_params.rendering_mode` → `5` – vyhlazenější font, Windows only
 
 * `browser.translations.enable` → `false` – vypne podprůměrný Firefox překlad, pro překlad lze použít [TWP - Translate Web Pages](https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/)
 
