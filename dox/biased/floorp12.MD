@@ -75,7 +75,7 @@
 * Po verzi 12.7:
   * K souboru se dostaneme přes: `about:support` → _Složka s profilem_ → _Otevřít_ → `chrome` → `CSS` → `userChrome.css`
 * Linux:
-  * _Složka s profilem_ mi ukazuje neexistujícíc cestu, naštěstí lze soubor ve file manageru rychle vyhledat
+  * _Složka s profilem_ mi ukazuje neexistující cestu, naštěstí lze soubor ve file manageru rychle vyhledat
 
 ```css
 /* Panel 'Najít na stránce...' ve vrchní části prohlížeče */
