@@ -27,6 +27,8 @@ git commit --amend -m "New commit message"
   git restore .
   ```
 
+  Nijak neřeší vytvořené a smazané soubory, pouze uvede modifikované soubory do původního stavu.
+
 </details>
 
 ## Negovat pushnutý commit

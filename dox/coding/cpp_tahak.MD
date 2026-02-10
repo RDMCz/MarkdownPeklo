@@ -3,9 +3,7 @@
 > [!NOTE]  
 > Toto zdaleka není veškerý výčet funkcí a vlastností daného programovacího jazyka.<br>Jedná se pouze o&nbsp;mé zápisky vzniklé během řešení [AoC](https://github.com/RDMCz/AdventOfCode) a/nebo při (samo)studiu.
 
-## Strukturované paradigma
-
-### Datové typy
+## Převody mezi typy
 
 ```cpp
 // char to int ('5' -> 5)
@@ -15,14 +13,14 @@ int num = ch - '0';
 // int/long/... to std::string
 std::string s = std::to_string(50);
 
-// std::string to int
-int num = std::stoi("50");
-
-// std::string to long long
-long long num = std::stoll("50");
+// std::string to ...
+int num = std::stoi("50");        // ...int
+long num = std::stoll("50");      // ...long
+long long num = std::stoll("50"); // ...long long
+                                  // etc.
 ```
 
-### std::vector
+## std::vector
 
 ```cpp
 #include <vector>
@@ -31,8 +29,11 @@ long long num = std::stoll("50");
 // Vytvoření
 std::vector<int> list;
 
-// Zjištění velikosti
-std::cout << list.size();
+// Zajištění minimální kapacity (počet prvků, kterých lze dosáhnout bez realokace)
+list.reserve(10);
+
+// Zjištění počtu prvků
+std::cout << list.size() << '\n';
 
 // Odebrání všech prvků
 list.clear();
@@ -44,8 +45,8 @@ list.push_back(0);
 list.insert(list.end(), { 1, 2, 3 });
 
 // Procházení prvků
-for (const int& item : list) {
-    std::cout << item << "\n";
+for (const auto& item : list) {
+    std::cout << item << '\n';
 }
 
 // Seřazení
@@ -66,9 +67,29 @@ list.erase(list.begin() + i);
 
 // Smazání posledního prvku
 list.erase(list.end() - 1);
+
+// ----------------------
+// Přidáváme-li objekt, pak je místo `push_back` výhodnější `emplace_back`, díky němuž se vyhneme kopírování
+struct MyObj
+{
+    int x;
+    int y;
+};
+std::vector<MyObj> obj_list;
+// (vytvoření instance a její následné zkopírování)
+MyObj obj1{ 10,20 };
+obj_list.push_back(obj1);
+// (lépe)
+obj_list.emplace_back(10, 20); // MSVC zde vyžaduje dodefinovat `MyObj(int x_, int y_) : x(x_), y(y_) {}`
+
+// Objekt lze nejdříve vytvořit a pak s ním pracovat
+obj_list.emplace_back(); // MSVC zde vyžaduje dodefinovat `MyObj() = default;`
+auto& obj2 = obj_list.back();
+obj2.x = 30;
+obj2.y = 40;
 ```
 
-### std::tuple
+## std::tuple
 
 ```cpp
 #include <tuple>
@@ -87,7 +108,7 @@ std::vector<std::tuple<int, int>> list;
 list.emplace_back(0, 2);
 ```
 
-### String
+## std::string
 
 ```cpp
 #include <string>
@@ -108,13 +129,13 @@ while (getline(ss, part, ',')) {
 
 std::string text = "abcdoldefgholdijkl";
 text = std::regex_replace(text, std::regex("old"), "new");
-std::cout << text;//abcdnewefghnewijkl
+std::cout << text; // → abcdnewefghnewijkl
 
 // -- Count character occurrences --------------------------------------------------------
 std::string text = "f 6/4/1 3/5/3 7/6/5"
 char char_to_find = '/'
 auto n_occurrences = std::count(text.begin(), text.end(), char_to_find);
-std::cout << n_occurrences;//6
+std::cout << n_occurrences; // → 6
 /* std::ranges::count can be used in C++20 */
 
 // -- Check if string contains a substring ------------------------------------------------
@@ -124,7 +145,7 @@ if (str.find(sub_str) != std::string::npos) {
 /* std::string::contains can be used in C++23 */
 ```
 
-## Objektové paradigma
+## OOP
 
 ### Dědičnost, polymorfismus
 
@@ -219,3 +240,5 @@ std::ostream& operator<<(std::ostream& stream, const Text& text) {
     return stream << text.value;
 }
 ```
+
+Je otázka, zdali je takovéto přetěžování operátorů dobrým zvykem...

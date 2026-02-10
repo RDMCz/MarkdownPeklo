@@ -1,6 +1,6 @@
 ## Programování
 
-Zde jsou výpisky, které jsem postupně tvořil při práci v různých programovacích jazycích. Většina z nich obsahuje pouze snippety, které jsem si potřeboval poznamenat. Některé ale mohou sloužit jako dobré přivítání do daného jazyka, pokud již máte nějaké „obecné“ programovací znalosti. Takové výpisky jsem označil jako _zero to basics_ a jsou vhodné pro ty, kteří si nemohou dovolit pouštět se do plnohodnotné knihy, ale zároveň tuší, že video typu „learn _X_ in 10 minutes“ stačit nebude.
+Zde jsou výpisky, které jsem postupně tvořil při práci v různých programovacích jazycích. Většina z&nbsp;nich obsahuje pouze snippety, které jsem si potřeboval poznamenat. Některé ale mohou sloužit jako dobré přivítání do daného jazyka, pokud má člověk již nějaké „obecné“ programovací znalosti. Takové výpisky jsem označil jako ___zero to basics___ a jsou vhodné pro ty, kteří si nemohou dovolit pouštět se do plnohodnotné knihy, ale zároveň tuší, že video typu „learn _X_ in 10 minutes“ stačit nebude.
 
 Jazyk/odkaz|Obsahuje
 ---|---
@@ -9,8 +9,9 @@ Jazyk/odkaz|Obsahuje
 [__Go__ tahák](./dox/coding/go_tahak.MD)|pouze snippety
 [__Java__ tahák](./dox/coding/java_tahak.MD)|pouze snippety
 [__Lua__ tahák](./dox/coding/lua_tahak.MD)|práce s kolekcemi a s řetězci, snippety
-[__PowerShell__ scripting tahák](./dox/coding/powershell_scripting_tahak.MD)|popis stavebních prvků pro psaní skriptů (_zero to basics_)
+[__PowerShell__ scripting tahák](./dox/coding/powershell_scripting_tahak.MD)|___zero to basics___ – popis stavebních prvků pro psaní skriptů
 [__Python__ tahák](./dox/coding/py_tahak.MD)|pouze snippety
+[__Rust__ tahák](./dox/coding/rust_tahak.MD)|___zero to basics___
 
 ## Software
 
