@@ -8,18 +8,23 @@
 
 <kbd>Shift</kbd> + <kbd>PrintScreen</kbd>
 
+#### Logitech bezdrátová zařízení
+
+* Logitech bezdrátová zařízení by měla fungovat sama od sebe, nelze ale zobrazit stav baterie nebo přenastavit např. funkce tlačítek na myši
+* Zobrazit stav baterie a změnit některá nastavení zařízení dokáže program [Solaar](https://github.com/pwr-Solaar/Solaar)
+
 ### Přidání funkcionality
 
-#### Clipboard history, historie schránky
+#### Clipboard history (historie schránky)
 
 * Balík _Parcellite_ nainstalovat v software managerovi
+  * (Existují i jiné balíky, často zmiňovaný je _Diodon_, ten mi ale moc nefungoval; pak _Clipit_, _GPaste_, ...)
 * V trayi bude ikonka → right click → _Preferences_
 * V sekci _Hotkeys_ lze nastavit zkratky
   * Bohužel `<Hyper>V` na Cinnamonu blbne, je potřeba double tapnout Hyper a pak až stisknout V
   * Zatím jsem se spokojil s `<Ctrl><Alt>V` (pro _History key combination_)
 * Funguje to trochu jinak než na Windows: po zobrazení historie se vybere položka, která se umístí do schránky, a tu pak lze vkládat klasicky pomocí Ctrl+V
-* V sekci _Display_ by měl jít změnit vzhled ikonky v trayi (asi dodat cestu k vlastní ikonce?), to jsem zatím nezkoušel
-* Existují i jiné balíky, často zmiňovaný je _Diodon_, ten mi ale moc nefungoval; pak _Clipit_, _GPaste_, ...
+* V sekci _Display_ lze změnit vzhled ikonky v trayi, je ale potřeba dodat vlastní ikonu a zde napsat její název, viz [parcellite monochrome icon](./parcellite_monochrome_icon/)
 
 ### Obecné problémy
 
@@ -56,6 +61,25 @@ miktex languages configure
 initexmf --mklangs
 miktex packages install hyph-utf8
 -->
+
+#### MiKTeX nemůže najít OTF font
+
+* Problém: I přes to, že ostatní programy OTF font vidí, LaTeXu se nedaří jej najít
+  * Chybová hláška v může vypadat dost krypticky, podrobnější informace se mohou náchazet v logu přímo vedle daného .tex souboru (a ne tam, kam nás navádí chybová hláška)
+    * Konkrétně u mě chybová hláška vypadala takto: ``hbf2gf (CJK ver. 4.8.4) `OT' can't be a subfont created by hbf2gf``
+    * V log souboru už lépe: `! Package fontspec Error: (fontspec) The font "xyz" cannot be found; ...`
+  * Nevím jestli je to problém pouze u OTF fontů, nebo obecně s „nevhodně nainstalovanými fonty“
+* Řešení: Vložit font do speciální složky, kde ho MiKTeX určitě najde:
+
+```bash
+kpsewhich --show-path=.otf 
+# ↑ Tento příkaz nám vrátí seznam cest, kde se hledají OTF fonty
+
+# Jednu z těchto cest si vybereme, a nakopírujeme do ní daný font
+
+# Pak stačí obnovit "File Name Database":
+miktex fndb refresh
+```
 
 ### Problémy na Dell Inspiron 15 (7000) Gaming
 
