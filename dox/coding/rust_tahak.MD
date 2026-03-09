@@ -30,6 +30,8 @@
   * [Datové typy a převody mezi nimi](#datové-typy-a-převody-mezi-nimi)
   * [Kolekce/řetězce/slices a jejich metody](#kolekceřetězceslices-a-jejich-metody)
   * [Iterátory a jejich metody](#iterátory-a-jejich-metody)
+  * [Smart pointer `Rc<T>`](#smart-pointer-rct)
+  * [Souběžnost](#souběžnost)
 * [Použité zdroje](#použité-zdroje)
 
 ## Základy
@@ -1311,12 +1313,12 @@ let four_char = char::from_digit(4, 10);
 * `rev` – obrátí směr konečného iterátoru
 * `zip` – ze dvou iterací udělá jednu iteraci párů; délka výsledné iterace je rovna kratšímu ze vstupů
 
-&nbsp;
+<br>
 
 * `all` – vrací všechny prvky `true` pro daný uzávěr?
 * `is_sorted_by` – je seřazeno podle dané funkce?
 
-&nbsp;
+<br>
 
 * [`fold`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.fold) – dostává uzávěr, který má kromě aktuálního prvku na vstupu i „perzistentní“ akumulátor, který je na konci vrácen
 * `position` – vrátí index první položky, která pro daný uzávěr vrací `true`
@@ -1328,6 +1330,254 @@ let four_char = char::from_digit(4, 10);
   * `min_by_key` – vrátí nejmenší prvek, který vrací nejmenší hodnotu pro daný uzávěr
   * To samé pro `max`
 
+### Smart pointer `Rc<T>`
+
+_Rc_ je zkratka pro _reference counting_, a jedná se o smart pointer, který umožňuje, aby jedna hodnota měla více vlastníků. Rc pointer používáme v&nbsp;případě, kdy máme data na haldě, která chceme číst z více částí našeho programu, ale předem nevíme, jaká část programu bude z dat číst jako poslední. Rc pointer je „read only“, poskytuje tedy pouze immutable reference. Rc pointer navíc nelze používat napříč více vlákny.
+
+```rust
+use std::rc::Rc;
+let a = Rc::new(6);
+let a_ref1 = Rc::clone(&a);
+println!("{}", Rc::strong_count(&a));      // → 2
+{
+    let a_ref2 = Rc::clone(&a);
+    println!("{}", Rc::strong_count(&a));  // → 3
+    println!("{a}{a_ref1}{a_ref2}")        // → 666
+}
+println!("{}", Rc::strong_count(&a));      // → 2
+```
+
+### Souběžnost
+
+* [`thread::spawn`](#threadspawn)
+* [`thread::scope`](#threadscope)
+* [Mutex](#mutex)
+* [Mutex + Arc](#mutex--arc)
+* [Mutex + Condvar](#mutex--condvar)
+* [Zasílání zpráv pomocí `mpsc::channel`](#zasílání-zpráv-pomocí-mpscchannel)
+
+#### `thread::spawn`
+
+Tato funkce dostává iterátor, který poběží ve vlastním vlákně. Po ukončení hlavního vlákna se automaticky ukončí i všechny ostatní. Chceme-li počkat na jejich dokončení, uložíme si a použijeme jejich `JoinHandle`. Pro práci s „vnějšími“ daty je potřeba tato data do uzávěru přesunout pomocí `move`.
+
+```rust
+use std::thread;
+use std::time;
+
+// Spící vedlejší vlákno
+thread::spawn(|| {
+    println!("Doing nothing!");
+    thread::sleep(time::Duration::from_millis(16));
+});
+
+// Čekání na dokončení vlákna a využití vnějších hodnot
+let v = vec![1, 2, 3];
+let handle = thread::spawn(move || {
+    println!("{v:?}")  // → [1, 2, 3]
+});
+handle.join().unwrap();  // V běžných případech by nemělo vracet chybu (?)
+```
+
+#### `thread::scope`
+
+Mějme situaci, kdy chceme rozdělit pole na polovinu a každou zpracovat v samostatném vlákně. Není potřeba vytvářet dvě nová vlákna: pro první půlku vytvoříme samostatné vlákno a druhou půlku zpracujeme ve vlákně hlavním. Na vlákno pracující s první půlkou počkáme pomocí join.
+
+```rust
+fn calculation(arr: &mut [i32]) {
+    let divider = arr.len() / 2;    
+    // NELZE:
+    //let handle = thread::spawn(|| inner_calculation(&mut arr[..divider]));
+    //inner_calculation(&mut arr[divider..]);
+    //handle.join().unwrap();
+}
+```
+
+Hodnota `arr` je vypůjčená, pokud bychom jí chtěli posílat do samostatných vláken, těžko by se kontrolovalo, zdali bude žít alespoň tak dlouho, jak budou žít daná vlákna (v tomto případě je vidět že ano, protože vlákno následně hned joinujeme, ale kontrolovat libovolnou situaci by asi nebylo triviální). Proto mohou vlákna z `thread::spawn` pracovat pouze s hodnotami, které mají tzv. [_`'static` lifetime_](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html).
+
+Toto lze obejít pomocí `thread::scope`, ten dostává uzávěr s jedním vstupním parametrem typu `Scope`, který umožňuje vytvářet vlákna nevyžadující _`'static` lifetime_. Po ukončení tohoto uzávěru je garantováno, že všechna v něm vytvořená vlákna jsou joinnuta.
+
+```rust
+fn calculation(arr: &mut [i32]) {
+    let divider = arr.len() / 2;
+    thread::scope(|s| {
+       s.spawn(|| inner_calculation(&mut arr[..divider]));
+       //inner_calculation(&mut arr[divider..]);  // NELZE
+    });
+}
+```
+
+Zde narážíme na pravidla pro práci s pamětí – nemůžeme mít dvě mutable reference na stejnou věc zároveň. V tomto případě již kompilátor pozná, že se jedná o problém. Prohozením řádků bychom pravidlo porušovat přestali, ale kód by běžel sekvenčně (nejdřív druhá půlka, pak první, kterou hned joinneme, protože končí uzávěr předaný funkci `thread::scope`).
+
+Zde nás může zachránit funkce `split_at_mut`. Ta podle zadaného indexu rozdělí mutable slice na dvě disjunktní mutable slices, které pokrývají celou původní.
+
+```rust
+fn calculation(arr: &mut [i32]) {
+    let (first_half, second_half) = arr.split_at_mut(arr.len() / 2);
+    thread::scope(|s| {
+        s.spawn(|| inner_calculation(first_half));
+        inner_calculation(second_half);
+    });
+}
+```
+
+#### Mutex
+
+```rust
+use std::sync::Mutex;
+
+let zamcena_hodnota = Mutex::new(5);  // Zámky v Rustu řeší nejen „ochranu kusů kódu“, ale drží si i nějakou hodnotu
+
+{
+    // Chceme držet zámek, čekáme na jeho uvolnění
+    let mut number = zamcena_hodnota.lock().unwrap();  // Vrací chybu, pokud je zámek „otráven“ (viz níže)
+    // Nyní držíme zámek a můžeme upravit jeho hodnotu
+    *number += 1;
+} // Zde uvolňujeme zámek (konec bloku)
+
+println!("{zamcena_hodnota:?}");  // → Mutex { data: 6, poisoned: false, .. }
+// Otrávený zámek („poisoned“) znamená, že nějaké vlákno, které jej drželo, vyvolalo paniku
+
+// --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+// Při kombinaci zámku se samostatnými vlákny nastává problém:
+
+let zamcena_hodnota = Mutex::new(5);
+thread::spawn(move || {
+    let mut number = zamcena_hodnota.lock().unwrap();
+    // ...
+});
+//println!("{zamcena_hodnota:?}"); // NELZE
+```
+
+Zámek již nelze použít (tedy ani dosadit do dalších vláken), protože byl přesunut do uzávěru a `zamcena_hodnota` již není vlastníkem. Jedním řešením by bylo použít `thread::scope` a zámek definovat o úroveň výš. To nám zajistí, že zámek přežije všechna vlákna daného `thread::scope`, a není proto potřeba psát `move`, stačí výpůjčka.
+
+```rust
+let zamcena_hodnota = Mutex::new(5);
+thread::scope(|s| {
+    s.spawn(|| {
+        let mut number = zamcena_hodnota.lock().unwrap();
+        *number += 1;
+    });
+    s.spawn(|| {
+        let mut number = zamcena_hodnota.lock().unwrap();
+        *number += 1;
+    });
+});
+println!("{zamcena_hodnota:?}"); // → Mutex { data: 7, poisoned: false, .. }
+```
+
+Ne vždy si můžeme dovolit všechny části kódu, které by měly pracovat se stejným zámkem, zabalit do jednoho velkého `thread::scope` bloku. Nebo například nechceme všechna tato vlákna hromadně joinovat (což se děje na konci `thread::scope` bloku). V těchto situacích můžeme využít smart pointer Arc.
+
+#### Mutex + Arc
+
+_Arc_ je zkratka pro _atomic reference counting_. Smart pointer `Arc<T>` má tedy stejný princip jako smart pointer `Rc<T>`, ale lze jej používat napříč více vlákny.
+
+```rust
+use std::sync::{Arc, Mutex};
+
+let zamcena_hodnota = Arc::new(Mutex::new(5));
+{
+    let zamcena_hodnota = Arc::clone(&zamcena_hodnota);
+    thread::spawn(move || {
+        let mut number = zamcena_hodnota.lock().unwrap();
+        *number += 1;
+    })
+    .join()
+    .unwrap();
+}
+println!("{zamcena_hodnota:?}");  // → Mutex { data: 6, poisoned: false, .. }
+```
+
+#### Mutex + Condvar
+
+_Condvar_ je zkratka pro _condition variable_, která se používá v kombinaci se zámkem a nějakou podmínkou v případě, kdy má vlákno čekat na nějakou vnější událost.
+
+Mějme příklad opět se zamčeným číslem. Cílem vlákna bude vybásobit toto číslo dvěma, ale pouze v případě, je-li toto číslo kladné. Pokud vlákno zjistí, že je číslo záporné, musí čekat, než ho jiné vlákno změní. S tím, co už známe, bychom mohli pomocí `sleep` v pravidelných intervalech kontrolovat, zdali už číslo není kladné. Pravidelné zabírání zámku ale není ideální, vhodnější by bylo se o události změny čísla nějak dozvědět. K tomu slouží condvar.
+
+```rust
+use std::sync::{Arc, Condvar, Mutex};
+
+// Do vláken kromě zámku potřebujeme dostat i samotnou condvar
+let zamcena_hodnota = Arc::new((Mutex::new(-1), Condvar::new()));
+// Pro joinnutí vedlejšího vlákna
+let handle;
+// Vedlejší vlákno
+{
+    let zamcena_hodnota = Arc::clone(&zamcena_hodnota);
+    handle = thread::spawn(move || {
+        // Standardní způsob získání zámku a condvar
+        let (lock, cvar) = &*zamcena_hodnota;
+        {
+            // Čekáme na zámek
+            let mut number = lock.lock().unwrap();
+            // Držíme zámek, kontrola čísla
+            while *number < 0 {
+                println!("Number still not positive, waiting for notify...");
+                // * Čekáme na notifikaci skrz condvar pomocí funkce wait
+                // * Tato funkce automaticky uvolní daný zámek, a po probuzení jej opět zabere
+                // * Funkce dostává MutexGuard daného zámku, a po probuzení vrací nový platný MutexGuard
+                // * While cyklus řeší falešná probuzení (spurious wakeup)
+                number = cvar.wait(number).unwrap();  // Vrací chybu při otráveném zámku
+                                                      // Vyvolá paniku při použití více zámků na jednu condvar
+                println!("Notified.")
+            }
+            // Číslo je kladné, dle zadání jej nyní můžeme vynásobit dvěma
+            println!("Checked, multiplying...");
+            *number *= 2;            
+        }  // Uvolňujeme zámek
+    });
+}
+
+let (lock, cvar) = &*zamcena_hodnota;
+thread::sleep(time::Duration::from_millis(200));
+
+{
+    let mut number = lock.lock().unwrap();
+    println!("Setting number to 3 and notifying.");
+    *number = 3;
+    // Probudíme jedno vlákno, které čeká na notifikaci skrze tuto condvar
+    cvar.notify_one();
+}
+
+handle.join().unwrap();
+println!("Result: {zamcena_hodnota:?}");
+
+// Výstup:
+/*
+Number still not positive, waiting for notify...
+Setting number to 3 and notifying.
+Notified.
+Checked, multiplying...
+Result: (Mutex { data: 6, poisoned: false, .. }, Condvar { .. })
+*/
+```
+
+#### Zasílání zpráv pomocí `mpsc::channel`
+
+MPSC je zkratka pro _Multiple Producer Single Consumer_. Mpsc channel je tedy kanál, který umožňuje zasílání zpráv mezi vlákny, kdy může být více odesílajících (_transmitter, tx_) a jeden příjemce (_receiver, rx_).
+
+```rust
+use std::sync::mpsc;
+
+let (tx, rx) = mpsc::channel();
+
+thread::spawn(move || {
+    thread::sleep(time::Duration::from_millis(200));
+    println!("Sending message.");
+    tx.send(6).unwrap();
+});
+
+println!("Waiting for message...");
+let received = rx.recv().unwrap();
+println!("Received message: {received}");
+
+// Výstup:
+/*
+Waiting for message...
+Sending message.
+Received message: 6
+*/
+```
+
 ## Použité zdroje
 
 * [The Rust Programming Language by Steve Klabnik, Carol Nichols, and Chris Krycho, with contributions from the Rust Community](https://doc.rust-lang.org/book)
@@ -1335,3 +1585,9 @@ let four_char = char::from_digit(4, 10);
 * [Rust’s standard library API documentation](https://doc.rust-lang.org/stable/std/index.html)
 
 * [Difference between iter, into_iter and iter_mut by Smart Contract Programmer](https://youtu.be/g2NOUos4ExE)
+
+<!--
+```rust
+
+```
+-->

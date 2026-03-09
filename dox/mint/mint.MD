@@ -2,7 +2,26 @@
 
 ## Mint 22 Cinnamon x64
 
+### Tipy a upozornění
+
+#### NTFS
+
+* Linux dokáže pracovat s NTFS oddíly, a proto se především při přechodu z Windows může jevit jako validní možnost ponechat si na nesystémových discích NTFS
+* NTFS ale nedoporučuji, přichází s ním problémy, které vychází především z odlišného systému oprávnění, jako:
+  * Ve správci souborů se po pokusu otevření libovolného souboru zjeví dialog, zdali chceme soubor otevřít, nebo spustit, což je otravný krok navíc
+  * Hry nainstalované přes Steam na NTFS disk nepůjdou bez dodatečné konfigurace spustit
+
 ### Jak...?
+
+#### Klávesová zkratka pro správce úloh
+
+* Klávesové zkratky jsou přenastavitelné, nastavení některých akcí je ponecháno na uživatelích
+* Správce úloh (zde zvaný _System monitor_) je aplikace jako každá jiná, chceme tedy přidat zkratku, která ji spustí
+* Jdeme do _Menu_ → _Preferences_ → _Keyboard_ → _Shortcuts_
+* Dole klikneme na tlačítko _Add custom shortcut_
+  * _Name_ nastavíme např. na `System Monitor`
+  * _Command_ musíme nastavit na na `gnome-system-monitor`
+* V záložce _Custom shortcuts_ pak najdeme naši novou zkratku a v sekci _Keyboard bindings_ ji můžeme přiřadit klávesy, např. <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd>
 
 #### Výstřižky
 
@@ -81,6 +100,10 @@ kpsewhich --show-path=.otf
 miktex fndb refresh
 ```
 
+#### Nevyřešeno (obecné problémy)
+
+* Floorp: drag&drop do GDrive nefunguje (Firefox OK)
+
 ### Problémy na Dell Inspiron 15 (7000) Gaming
 
 #### Nefunkční zvuk
@@ -93,6 +116,22 @@ echo "blacklist snd_soc_avs" | sudo tee /etc/modprobe.d/blacklist-snd_soc_avs.co
 sudo update-initramfs -u
 # Poté restartovat PC
 ```
+
+#### Hry
+
+##### Ovladače?
+
+* Ovladač pro NVIDIA GPU nainstalujeme v programu _Driver Manager_
+* V liště se nám po restartu objeví _NVIDIA Settings_, kde lze přepínat mezi profily: _Intel (Power Saving Mode)_, _NVIDIA On-Demand_ a _NVIDIA (Performance Mode)_
+* Po přepnutí profilu je třeba restart systému
+* Pro běžné používání stačí On-Demand, pro hraní je zřejmě nutný Performance Mode
+  * Při testování na Flatout 2 hra v profilu On-Demand padala, v Performance Mode nikoliv
+
+##### Steam nejde zapnout v profilu _NVIDIA (Performance Mode)_
+
+* Problém: Při zapnutém profilu _NVIDIA (Performance Mode)_ a pokusu a zapnutí Steamu z menu nebo plochy nás systém odhlásí
+* Řešení: Steam by měl jít spustit z terminálu příkazem `steam`
+* Příkaz `steam` se hodí i pro řešení dalších problémů, protože do terminálu vypisuje informace za běhu
 
 #### Nevyřešeno (Dell laptop)
 

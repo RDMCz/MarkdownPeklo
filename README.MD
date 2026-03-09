@@ -25,18 +25,18 @@ Jazyk/odkaz|Obsahuje
 
 * [Git KPZ](./dox/git_kpz.MD)
 
+### Linux
+
+* [Linux Mint: Poznámky novousedlíka](./dox/mint/mint.MD)
+
 ### Windows 10
 
 * [Přihlášení bez nutnosti zadávání hesla či PINu](./dox/windows/windows_auto_login.MD)
 * [Vypnutí automatického stahování a instalace aktualizací](./dox/windows/windows_auto_update_off.MD)
 
-### Linux
-
-* [Linux Mint: Poznámky novousedlíka](./dox/mint/mint.MD)
-
 ---
 
-Sepsáno léta Páně 2021–2025. Použití na vlastní nebezpečí.
+Sepsáno léta Páně 2021–2026. Použití na vlastní nebezpečí.
 
 ---
 
