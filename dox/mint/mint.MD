@@ -9,7 +9,7 @@
 * Linux dokáže pracovat s NTFS oddíly, a proto se především při přechodu z Windows může jevit jako validní možnost ponechat si na nesystémových discích NTFS
 * NTFS ale nedoporučuji, přichází s ním problémy, které vychází především z odlišného systému oprávnění, jako:
   * Ve správci souborů se po pokusu otevření libovolného souboru zjeví dialog, zdali chceme soubor otevřít, nebo spustit, což je otravný krok navíc
-  * Hry nainstalované přes Steam na NTFS disk nepůjdou bez dodatečné konfigurace spustit
+  * Hry nainstalované na NTFS disk skrz program Steam nepůjdou bez dodatečné konfigurace spustit
 
 ### Jak...?
 
@@ -25,7 +25,7 @@
 
 #### Výstřižky
 
-<kbd>Shift</kbd> + <kbd>PrintScreen</kbd>
+Výchozí klávesová zkratka pro výstrižky je <kbd>Shift</kbd> + <kbd>PrintScreen</kbd>.
 
 #### Logitech bezdrátová zařízení
 
@@ -51,7 +51,7 @@
 
 * Problém: Spustíme-li po startu systému program, který chce načíst něco z nesystémového disku, pak hlásí, že taková cesta neexistuje. Jakmile v průzkumníku disk otevřeme, tak cesta už začne být viditelná pro daný program.
 * [Řešení](https://forums.linuxmint.com/viewtopic.php?t=407003): Toto je výchozí chování, lze jej ale změnit např. pomocí programu _Disks_, který je součástí systému:
-  * Otevřeme _Disks_, v něm vybereme problémový disk a jeho partition
+  * Otevřeme _Disks_, v něm vybereme problémový disk a jeho patřičný oddíl
   * Klikneme na ozubená kola (_Additional partition options_) a vybereme _Edit Mount Options_
   * Vypneme možnost _User Session Defaults_
   * To by mělo stačit (možnosti _Mount at system startup_ & _Show in user interface_ musí zůstat zapnuté)
@@ -84,7 +84,7 @@ miktex packages install hyph-utf8
 #### MiKTeX nemůže najít OTF font
 
 * Problém: I přes to, že ostatní programy OTF font vidí, LaTeXu se nedaří jej najít
-  * Chybová hláška v může vypadat dost krypticky, podrobnější informace se mohou náchazet v logu přímo vedle daného .tex souboru (a ne tam, kam nás navádí chybová hláška)
+  * Chybová hláška může vypadat dost krypticky, podrobnější informace se mohou náchazet v logu přímo vedle daného .tex souboru (nikoliv tam, kam nás navádí chybová hláška)
     * Konkrétně u mě chybová hláška vypadala takto: ``hbf2gf (CJK ver. 4.8.4) `OT' can't be a subfont created by hbf2gf``
     * V log souboru už lépe: `! Package fontspec Error: (fontspec) The font "xyz" cannot be found; ...`
   * Nevím jestli je to problém pouze u OTF fontů, nebo obecně s „nevhodně nainstalovanými fonty“
@@ -99,10 +99,6 @@ kpsewhich --show-path=.otf
 # Pak stačí obnovit "File Name Database":
 miktex fndb refresh
 ```
-
-#### Nevyřešeno (obecné problémy)
-
-* Floorp: drag&drop do GDrive nefunguje (Firefox OK)
 
 ### Problémy na Dell Inspiron 15 (7000) Gaming
 
@@ -133,7 +129,10 @@ sudo update-initramfs -u
 * Řešení: Steam by měl jít spustit z terminálu příkazem `steam`
 * Příkaz `steam` se hodí i pro řešení dalších problémů, protože do terminálu vypisuje informace za běhu
 
-#### Nevyřešeno (Dell laptop)
+### Nevyřešené problémy
 
-* Firefox/Floorp: Gesta zpět/vpřed na touchpadu nefungují (na Waylandu údajně funguje)
-* Touchpad méně tolerantní (klik třemi prsty: někdy detekuje pouze dva, někdy vůbec nic)
+* Nevyřešené obecné problémy
+  * Floorp: drag&drop do GDrive nefunguje (Firefox OK)
+* Nevyřešené problémy na Dell Inspiron 15 (7000) Gaming
+  * Firefox/Floorp: Gesta zpět/vpřed na touchpadu nefungují (na Waylandu údajně funguje)
+  * Touchpad méně tolerantní (klik třemi prsty: někdy detekuje pouze dva, někdy vůbec nic)

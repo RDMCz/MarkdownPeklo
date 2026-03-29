@@ -37,4 +37,6 @@ git commit --amend -m "New commit message"
 git revert <commit_hash>
 ```
 
-Vytvoří nový commit, který neguje změny commitu určeného pomocí hashe. Tento nový commit pak stačí pushnout. Pro negaci více commitů lze použít rozsah: `git revert <nejstarsi_hash>..<nejnovejsi_hash>`.
+* Vytvoří nový commit, který neguje změny commitu určeného pomocí hashe. Tento nový commit pak stačí pushnout.
+* Pro pouhé provedení změn bez automatického commitu slouží přepínač `-n`.
+* Pro negaci více commitů lze použít rozsah: `git revert <nejstarsi_hash>^..<nejnovejsi_hash>`. Díky stříšce `^` je zahrnut i zmíněný nejstarší commit.
