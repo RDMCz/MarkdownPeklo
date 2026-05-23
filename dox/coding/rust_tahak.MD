@@ -247,7 +247,7 @@ fn print_string_ref(some_string: &String) {
 
 Napsáním `&` před datový typ myslíme referenci na tento typ. Napsáním `&` před název proměnné referencujeme tuto proměnnou, tomu se říká výpůjčka (borrow). Znak `*` pak případně slouží pro dereferenci.
 
-Klasické reference jsou immutable, tedy neměnné. Cheme-li vypůjčenou proměnnou jakkoliv upravit, musíme použít mutable referenci.
+Klasické reference jsou immutable, tedy neměnné. Chceme-li vypůjčenou proměnnou jakkoliv upravit, musíme použít mutable referenci.
 
 ```rust
 fn main() {

@@ -57,7 +57,8 @@ Výchozí klávesová zkratka pro výstrižky je <kbd>Shift</kbd> + <kbd>PrintSc
   * To by mělo stačit (možnosti _Mount at system startup_ & _Show in user interface_ musí zůstat zapnuté)
   * Dále je vhodné změnit mount point:
     * Dle definice nejsou `/mnt` ani `/media` vhodná místa pro permanentní interní disk
-    * Doporučuji kořen systému souborů nebo domovský adresář (např. `/ssd2` nebo `/home/username/ssd2`)
+    * Doporučuje se kořen systému souborů nebo domovský adresář (např. `/ssd2` nebo `/home/username/ssd2`)
+      * V kořenu se mi ale podařilo nastavit mount point pouze pro NTFS disk, nikoliv pro ext4; proto jsem se nakonec spokojil s výchozím `/mnt/ssd2`
 
 #### "Start" menu obsahuje odkazy na již neexistující soubory
 
@@ -121,7 +122,8 @@ sudo update-initramfs -u
 * V liště se nám po restartu objeví _NVIDIA Settings_, kde lze přepínat mezi profily: _Intel (Power Saving Mode)_, _NVIDIA On-Demand_ a _NVIDIA (Performance Mode)_
 * Po přepnutí profilu je třeba restart systému
 * Pro běžné používání stačí On-Demand, pro hraní je zřejmě nutný Performance Mode
-  * Při testování na Flatout 2 hra v profilu On-Demand padala, v Performance Mode nikoliv
+  * Při testování na FlatOut 2 hra v profilu On-Demand padala, v Performance Mode nikoliv
+    * U této hry jsem také musel nastavit `PROTON_USE_WINED3D=1 %command%` jako parametr při spuštění
 
 ##### Steam nejde zapnout v profilu _NVIDIA (Performance Mode)_
 
