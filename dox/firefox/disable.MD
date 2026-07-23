@@ -1,5 +1,6 @@
-# Firefox – Vypnutí novinek z verze 131
+# Firefox – Vypnutí/skrytí určitých prvků
 
+<!--
 ## Tlačítko _Seznam všech panelů_
 
 Do [zprovozněného souboru userChrome.css](./userchrome.MD) připište:
@@ -11,7 +12,15 @@ Do [zprovozněného souboru userChrome.css](./userchrome.MD) připište:
 ```
 
 Soubor uložte a restartujte prohlížeč.
-
+-->
 ## Náhledy panelů
 
 Přejděte do `about:config` a nastavte hodnotu `browser.tabs.hoverPreview.enabled` na `false`.
+
+## Tlačítko _Přidat panel na systémový hlavní panel_
+
+Přejděte do `about:config` a nastavte hodnotu `browser.taskbarTabs.enabled` na `false`.
+
+## Tlačítko _Vyzkoušejte anonymní překlady ve Firefoxu (Beta)_
+
+Přejděte do `about:config` a nastavte hodnotu `browser.translations.enable` na `false`.

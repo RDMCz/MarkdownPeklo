@@ -1,6 +1,28 @@
-# Floorp 12 jakožto náhrada Firefoxu
+# Firefox misc
 
-## Čistá instalace
+## Moje Firefox Color theme
+
+<https://color.firefox.com/?theme=XQAAAALkAQAAAAAAAABBqYhm849SCia-yK6EGccwS-xMDPr9KfClUsfTUp4mZMBLvzmxZf3j18vxZeIplEK58_CjoMc71C-lhk24F2NJpRB2pBgKPt67oKjV0_7jMKSWHUGWjWR2mBdoBQaUSzyX5bgAn7JZuaKQXG4XTBO3aucDJ1x-GaqRrkhubYrNYyClEZvW7PxWsH0pebujvVtBT49qKeXecsO417lZ38bJ4hrqLswCK4j4R6JhBy2negpG7-GJS_mdxH46ZM30mEFfOv7LPWR1nxT92CuOvTVG_-sO1I0MabDmAhci_-Z-Y0uKfBMJiSiiaZGsH1uwTZmuVA5HjdPlp3TJC-ih6N2E4MJB5KhVqcEGh6cfca3zXt3NssmW8zHYCss3yHLM33_-GRIm>
+
+## Nastavení TWP - Translate Web Pages
+
+* `Ctrl` + `Shift` + `A` nás přesune do správy rozšíření, zde lze nastavovat doplňky (_[…] → Možnosti_)
+
+* _Překlady_
+  * _Zobrazit tlačítko pro překlad vybraného textu_
+
+* _Klávesové zkratky_
+
+* _Ostatní_
+  * _V místní nabídce se zobrazí možnost překladu stránky_
+  * _Zobrazit možnost překladu vybraného textu v kontextové nabídce_
+
+## Floorp
+
+> [!NOTE]  
+> Floorp jsem používal skoro dva roky jako náhradu za Firefox, nakonec jsem se ale k Firefoxu vrátil. Floorp mi ve verzích 11.x vyhovoval, ale postupem času s novými aktualizacemi přicházely i nové problémy. Konkrétně mi došla trpělivost u verze 12.16.3.
+
+### Floorp :: Čistá instalace
 
 * <https://floorp.app/en-US/download>
   * Nepodporučuji portable verzi (problémové nastavení jako výchozí prohlížeč webu, pdf, ...)
@@ -16,7 +38,7 @@
   
   * Oproti Firefoxu je v základu k dispozici _Kompaktní_ velikost lišty panelů (jedná se o „nejnižší“ velikost, což preferuji – více místa pro samotný obsah webu)
 
-## Nastavení
+### Floorp :: Nastavení
 
 * _Obecné_
 
@@ -36,11 +58,15 @@
 
   * _Navrhovat e-mailové masky Floorp Relay pro ochranu vaší e-mailové adresy_
 
-### Floorp Hub
+#### Floorp Hub
 
 * _Tab & Appearance_
 
   * _Photon_ je „nejnižší“
+
+  * (_Allow creating split view by dragging tabs_)
+
+  * (_Enable tab sleep exclusion_)
 
 * _Panel Sidebar_
 
@@ -58,7 +84,7 @@
 
   * Zde lze vypnout Web Apps
 
-## about:config
+### Floorp :: about:config
 
 * `gfx.font_rendering.cleartype_params.rendering_mode` → `5` – vyhlazenější font, Windows only
 
@@ -68,7 +94,7 @@
 
 * `network.protocol-handler.external.mailto` → `false` – vypne neúprosný popup _Přidat xyz.cz jako aplikaci pro odkazy typu mailto?_
 
-## userChrome.css
+### Floorp :: userChrome.css
 
 * Před verzí 12.7:
   * ~~K souboru se dostaneme přes: `about:support` → _Složka s profilem_ → _Otevřít_ → `chrome` → `userChrome.css` a vlastní pravidla píšeme pod řádek `/* Please write your custom CSS under this line*/`~~
@@ -88,7 +114,3 @@
 #alltabs-button { display: none !important; }
 .titlebar-spacer[type="post-tabs"] { display: none !important; } 
 ```
-
-## Moje Firefox Color theme
-
-<https://color.firefox.com/?theme=XQAAAALkAQAAAAAAAABBqYhm849SCia-yK6EGccwS-xMDPr9KfClUsfTUp4mZMBLvzmxZf3j18vxZeIplEK58_CjoMc71C-lhk24F2NJpRB2pBgKPt67oKjV0_7jMKSWHUGWjWR2mBdoBQaUSzyX5bgAn7JZuaKQXG4XTBO3aucDJ1x-GaqRrkhubYrNYyClEZvW7PxWsH0pebujvVtBT49qKeXecsO417lZ38bJ4hrqLswCK4j4R6JhBy2negpG7-GJS_mdxH46ZM30mEFfOv7LPWR1nxT92CuOvTVG_-sO1I0MabDmAhci_-Z-Y0uKfBMJiSiiaZGsH1uwTZmuVA5HjdPlp3TJC-ih6N2E4MJB5KhVqcEGh6cfca3zXt3NssmW8zHYCss3yHLM33_-GRIm>
