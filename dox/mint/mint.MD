@@ -20,7 +20,7 @@
 * Jdeme do _Menu_ → _Preferences_ → _Keyboard_ → _Shortcuts_
 * Dole klikneme na tlačítko _Add custom shortcut_
   * _Name_ nastavíme např. na `System Monitor`
-  * _Command_ musíme nastavit na na `gnome-system-monitor`
+  * _Command_ musíme nastavit na `gnome-system-monitor`
 * V záložce _Custom shortcuts_ pak najdeme naši novou zkratku a v sekci _Keyboard bindings_ ji můžeme přiřadit klávesy, např. <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd>
 
 #### Výstřižky
