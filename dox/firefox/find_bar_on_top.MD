@@ -1,5 +1,8 @@
 # Firefox – _Najít na stránce..._ ve vrchní části prohlížeče
 
+> [!CAUTION]
+> Toto řešení omezí možnosti zobrazení DevTools (<kbd>F12</kbd>). Ty jsou při volbě _připnout dolů_ připnuty nahoře a připnutí vlevo či vpravo nefunguje vůbec.
+
 Do [zprovozněného souboru userChrome.css](./userchrome.MD) připište:
 
 ```css
@@ -27,7 +30,7 @@ Po stisku <kbd>Ctrl</kbd> + <kbd>F</kbd> by se měl nyní „findbar“ nacháze
 
 <summary>Zobrazit/skrýt userChrome.css kód pro starší verze prohlížeče</summary>
 
-## Firefox verze 113 až 155
+## Firefox verze 113 až 154
 
 ```css
 .browserContainer > findbar {

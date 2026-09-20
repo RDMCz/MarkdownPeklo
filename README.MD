@@ -5,12 +5,13 @@ Zde jsou výpisky, které jsem postupně tvořil při práci v různých program
 Jazyk/odkaz|Obsahuje
 ---|---
 [__C__ tahák](./dox/coding/c_tahak.MD)|základní a strukturované datové typy, pole, ukazatele, dynamická alokace paměti
-[__C++__ tahák](./dox/coding/cpp_tahak.MD)|<small>náhodné snippety</small>
-[__Go__ tahák](./dox/coding/go_tahak.MD)|<small>náhodné snippety</small>
-[__Java__ tahák](./dox/coding/java_tahak.MD)|<small>náhodné snippety</small>
+[__C++__ tahák](./dox/coding/cpp_tahak.MD)|<sub>náhodné snippety</sub>
+[__Dart__ tahák](./dox/coding/dart_tahak.MD)|<sub>náhodné snippety</sub>
+[__Go__ tahák](./dox/coding/go_tahak.MD)|<sub>náhodné snippety</sub>
+[__Java__ tahák](./dox/coding/java_tahak.MD)|<sub>náhodné snippety</sub>
 [__Lua__ tahák](./dox/coding/lua_tahak.MD)|práce s kolekcemi a s řetězci
 [__PowerShell__ scripting tahák](./dox/coding/powershell_scripting_tahak.MD)|___zero to basics___: popis stavebních prvků pro psaní skriptů
-[__Python__ tahák](./dox/coding/py_tahak.MD)|<small>náhodné snippety</small>
+[__Python__ tahák](./dox/coding/py_tahak.MD)|<sub>náhodné snippety</sub>
 [__Rust__ tahák](./dox/coding/rust_tahak.MD)|___zero to basics___
 
 ## Software
