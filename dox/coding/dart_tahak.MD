@@ -1,4 +1,7 @@
-# Dart
+# Dart tahák
+
+> [!NOTE]  
+> Toto zdaleka není veškerý výčet funkcí a vlastností daného programovacího jazyka.<br>Jedná se pouze o&nbsp;mé zápisky vzniklé během řešení [AoC](https://github.com/RDMCz/AdventOfCode) a/nebo při (samo)studiu.
 
 ## Proměnné a typy
 

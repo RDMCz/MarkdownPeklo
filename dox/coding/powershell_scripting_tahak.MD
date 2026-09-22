@@ -1,7 +1,7 @@
 # PowerShell scripting tahák
 
 > [!NOTE]  
-> Toto zdaleka není veškerý výčet funkcí a vlastností daného programovacího jazyka.<br>Jedná se pouze o&nbsp;mé zápisky vzniklé během řešení [AoC](https://github.com/RDMCz/AdventOfCode) a/nebo při (samo)studiu.<br><br>Zároveň se zde vůbec nezabývám administrací OS Windows z prostředí PowerShell,<br>ale pouze prostředky pro psaní „běžných“ algoritmů.
+> Toto zdaleka není veškerý výčet funkcí a vlastností daného programovacího jazyka.<br>Jedná se pouze o&nbsp;mé zápisky vzniklé během řešení [AoC](https://github.com/RDMCz/AdventOfCode) a/nebo při (samo)studiu.<br><br>Zároveň se zde vůbec nezabývám administrací OS Windows z prostředí PowerShell,<br>ale pouze prostředky pro psaní „běžných“ algoritmů.<br><br>Psáno při používání PowerShellu ve verzi 5.1 na OS Windows 10.
 
 * [Přivítání](#přivítání)
 * [Proměnné a jejich výpis](#proměnné-a-jejich-výpis)
@@ -43,8 +43,8 @@ $number6 = 6
 $text = "ooga booga"
 
 <#
-Řádek obsahující samotný název proměnné vypíše (případně i vrací) její hodnotu,
-stejně jako kdybychom napsali název proměnné do terminálu – odpovědí je hodnota.
+Řádek obsahující samotný název proměnné vypíše její hodnotu, případně ji i vrací.
+Chování je stejné jako kdybychom napsali název proměnné do terminálu – odpovědí je hodnota.
 #>
 Write-Host $number5  # → 5
 $number5             # → 5
@@ -143,19 +143,20 @@ Row 6
 ```ps1
 $str = "abcdefghi"
 
-# Od indexu 2 do konce
+# Vypiš znaky od indexu 2 do konce
 Write-Host ($str.Substring(2))  # → cdefghi
 
-# 3 znaky počínaje indexem 2
+# Vypiš 3 znaky počínaje indexem 2
 Write-Host ($str.Substring(2, 3))  # → cde
 
 # ($str[2..4]) vrací kolekci znaků od indexu 2 do indexu 4 (včetně)
 # ($str[2..4] -join "") spojí prvky kolekce do řetězce (mezi jednotlivé prvky je vloženo "", tedy nic)
 # Pokud „joinujeme ničím“, můžeme použít kratší unární variantu (-join $str[2..4])
-Write-Host (-join $str[2..4])  # → cde
+Write-Host (-join $str[2..4])      # → cde
+Write-Host ($str[2..4] -join ",")  # → c,d,e
 
-# Pro indexovou verzi ($str.Substring(2)) potřebujeme zjistit délku,
-# nebo použít libovolné dostatečně velké číslo – out of bounds nevadí
+# Pro dosažení funkce příkazu $str.Substring(2) pomocí hranatých závorek potřebujeme
+# zjistit délku, nebo použít libovolné dostatečně velké číslo – out of bounds nevadí
 Write-Host (-join $str[2..($str.Length - 1)])  # → cdefghi
 Write-Host (-join $str[2..99])                 # → cdefghi
 
@@ -164,15 +165,17 @@ Write-Host (-join $str[-7..-5])  # → cde
 
 # Indexace pozpátku
 Write-Host (-join $str[4..2])  # → edc
+
+# Indexování rozsahem není to samé jako plnohodnotný slicing, více v sekci o polích.
 ```
 
 ### -replace
 
 ```ps1
-$str = "powershell (mocna lastura)"                       #   powershell (mocna lastura)
-Write-Host ($str -replace "lastura", "skorapka")          # → powershell (mocna skorapka)
-Write-Host ($str -replace ".{8}$", "skorapka)")           # → powershell (mocna skorapka)
-Write-Host ($str -replace "[^a-z ]")                      # → powershell mocna lastura
+$str = "powershell (mocna lastura)"               #   powershell (mocna lastura)   # Původní řetězec
+Write-Host ($str -replace "lastura", "skorapka")  # → powershell (mocna skorapka)  # Nahraď slovo
+Write-Host ($str -replace ".{8}$", "skorapka)")   # → powershell (mocna skorapka)  # Nahraď posledních 8 znaků
+Write-Host ($str -replace "[^a-z ]")              # → powershell mocna lastura     # Smaž vše krom malých písmen a mezer
 
 # V regulárních výrazech escapujeme backslashem, nikoliv backtickem.
 # Pro nahrazení nalezenou skupinou regulárního výrazu je třeba jako druhý parametr použít verbatim string,
@@ -199,13 +202,13 @@ $text = "a,b c,d  e,,f"
 # Samotný split dělí podle mezer a více mezer za sebou je stále jeden split
 Demonstruj (-split $text)  # → a,b | c,d | e,,f
 
-# V binární variantě dělíme podle podřetězce, více výskytů za sebou je ale splitováno zvlášť
+# Ve variantě s hodnotou parametru dělíme podle zadaného podřetězce, více výskytů za sebou je ale splitováno zvlášť
 Demonstruj ($text -split ",")  # → a | b c | d  e |  | f
 
 # Pro zachování delimiteru ho obalíme do závorek; escapujeme případně backslashem
 Demonstruj ($text -split "(,)")  # → a | , | b c | , | d  e | , |  | , | f
 
-# Lze si napsat vlastní podmínku
+# Lze si napsat vlastní podmínku; $_ obsahuje aktuálně zkoumanou hodnotu
 Demonstruj ($text -split { $_ -eq " " -or $_ -eq "," })  # → a | b | c | d |  | e |  | f
 Demonstruj ($text -split { $_ -in @(" ", ",") })         # → a | b | c | d |  | e |  | f
 
@@ -229,7 +232,7 @@ Write-Host $real.GetType()  # → System.Single
 $real++
 Write-Host $real.GetType()  # → System.Double
 
-# Pro pevně nastavený datový typ proměnné castovat identifikátor, nikoliv hodnotu
+# Pro pevně nastavený datový typ proměnné castujeme identifikátor, nikoliv hodnotu
 [float]$real = 1.2
 Write-Host $real.GetType()  # → System.Single
 $real++
@@ -324,13 +327,13 @@ switch ($num) {
     { $_ % 2 -ne 0 } {  # Match, pro vyhodnocení lze použít scriptblock; $_ obsahuje aktuálně zkoumanou hodnotu
         Write-Host '$_ % 2 -ne 0'
     }
-    "5" {  # Match, { 5 -eq "5" } je v vyhodnoceno jako $true; museli bychom použít { $_ -is [string] -and $_ -eq "5" }
+    "5" {  # Match, { 5 -eq "5" } je vyhodnoceno jako $true; museli bychom použít { $_ -is [string] -and $_ -eq "5" }
         Write-Host '"5"'
     }    
     5 {  # Match, stejná podmínka nevadí
         Write-Host "5"
     }
-    Default {  # Nic, platné pouze pokud nebyla použita ždáná jiná větev
+    Default {  # Nic, platné pouze pokud nebyla použita žádná jiná větev
         Write-Host "Default"
     }
 }
@@ -408,7 +411,7 @@ $pole = [Object[]]::new(4)  # Čtyřtečkou přistupujeme ke statickým členům
 [int[]]$pole = @(0, 1, 2, 3, 4, 5, 6, 7)
 Write-Host $pole[1]  # → 1
 
-# Lze indexovat více položek najednou, nebo rozsah (exkluzivní)
+# Lze indexovat více položek najednou, nebo rozsah (inkluzivní)
 Write-Host $pole[1, 2, 3]  # → 1 2 3
 Write-Host $pole[1, 0, 1]  # → 1 0 1
 Write-Host $pole[1..4]     # → 1 2 3 4
